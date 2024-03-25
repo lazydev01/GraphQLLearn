@@ -32,5 +32,16 @@ public class DemoApplication implements CommandLineRunner {
 		b2.setDesc("A Book on how one should live a Life");
 		b2.setPrice(Integer.MAX_VALUE);
 		b2.setAuthor("Rushi Ved Vyas");
+
+		Book b3 = new Book();
+		b3.setPages(348);
+		b3.setTitle("Jeevan ko Paltane Waali Ek adbhut kahani");
+		b3.setDesc("A Book on the life of Brahma(Dada Lekhraj)");
+		b3.setPrice(Integer.MAX_VALUE);
+		b3.setAuthor("Brahmakumaris");
+
+		this.bookService.create(b1);
+		this.bookService.create(b2);
+		this.bookService.create(b3);
 	}
 }
