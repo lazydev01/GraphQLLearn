@@ -1,14 +1,18 @@
 package com.lazydev01.graphql.demo.controllers;
 
 import com.lazydev01.graphql.demo.models.Book;
+import com.lazydev01.graphql.demo.models.BookInput;
 import com.lazydev01.graphql.demo.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/books")
+@Controller
 public class BookController {
     private BookService bookService;
     @Autowired
@@ -17,19 +21,25 @@ public class BookController {
     }
 
     //Create
-    @PostMapping
-    public Book create(@RequestBody  Book book){
+    @MutationMapping("createBook")
+    public Book create(@Argument BookInput bookInput){
+        Book book = new Book();
+        book.setTitle(bookInput.getTitle());
+        book.setDesc(bookInput.getDesc());
+        book.setAuthor(bookInput.getAuthor());
+        book.setPages(bookInput.getPages());
+        book.setPrice(bookInput.getPrice());
         return this.bookService.create(book);
     }
     //Get All
-    @GetMapping
+    @QueryMapping("allBooks")
     public List<Book> getAll(){
         return this.bookService.getAll();
     }
 
     //Get Single Book
-    @GetMapping("/{id}")
-    public Book get(@PathVariable(value = "id") int bookId){
+    @QueryMapping("getBook")
+    public Book get(@Argument(value = "id") int bookId){
         return this.bookService.get(bookId);
     }
 
